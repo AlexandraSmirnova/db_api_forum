@@ -1,0 +1,29 @@
+from flask import Blueprint, request
+from common.DB_connect import *
+from common.helpers import check_data, intersection 
+from api.entities.users import *
+from api.entities import users 
+
+import json
+import MySQLdb
+
+user = Blueprint('user', __name__)
+BASE_URL = '/user'
+
+@user.route(BASE_URL + '/create/', methods = ['POST'])
+def create():
+    print("create!")
+    con = connect()
+    content = request.json
+    required_data = ["username", "about", "name", "email"]
+    optional = intersection(request = content, values=["isAnonymous"])
+    try:
+        check_data(data=content, required=required_data)
+        user = users.save_user(connect = con , username = content["username"], about = content["about"],name =  content["name"], email =content["email"], optional = optional)
+    except Exception as e:
+        con.close()
+        if e.message == "5":
+            return json.dumps({"code": 5, "response": (e.message)})
+        return json.dumps({"code": 1, "response": (e.message)})
+    con.close()
+    return json.dumps({"code": 0, "response": user})

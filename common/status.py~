@@ -1,0 +1,14 @@
+__author__ = 'AS'
+
+from common.DB_connect import *
+from common import DB_connect
+
+def status():
+    con = connect()
+    result = {}
+    tables = ['user', 'thread', 'forum', 'post' ]
+    for table in tables:
+        tmp = DB_connect.execute(con,"SELECT count(*) from %s" % table)
+        result[table] = tmp
+    con.close()
+    return result
