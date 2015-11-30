@@ -1,7 +1,3 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
 DROP SCHEMA IF EXISTS `forumdb` ;
 CREATE SCHEMA IF NOT EXISTS `forumdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 USE `forumdb` ;
@@ -39,12 +35,7 @@ CREATE TABLE IF NOT EXISTS `forumdb`.`Forum` (
   `name` VARCHAR(128) NOT NULL,
   PRIMARY KEY (`id`, `name`, `short_name`),
   INDEX `fk_Forums_Users1_idx` (`user` ASC),
-  UNIQUE INDEX `short_name_UNIQUE` (`short_name` ASC, `id` ASC),
-  CONSTRAINT `fk_Forum_User1`
-    FOREIGN KEY (`user`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `short_name_UNIQUE` (`short_name` ASC, `id` ASC))
 ENGINE = InnoDB;
 
 
@@ -57,18 +48,7 @@ CREATE TABLE IF NOT EXISTS `forumdb`.`Follow` (
   `user` VARCHAR(64) NOT NULL,
   `follow` VARCHAR(64) NOT NULL,
   `isDeleted` TINYINT(1) NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (`user`, `follow`),
-  UNIQUE INDEX `userToFollowing` (`follow` ASC, `user` ASC),
-  CONSTRAINT `fk_Follow_User_m`
-    FOREIGN KEY (`user`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Follow_User_m1`
-    FOREIGN KEY (`follow`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`user`, `follow`))
 ENGINE = InnoDB;
 
 
@@ -94,17 +74,7 @@ CREATE TABLE IF NOT EXISTS `forumdb`.`Thread` (
   INDEX `fk_Threads_Forums1_idx` (`forum` ASC),
   INDEX `fk_Threads_Users1_idx` (`user` ASC),
   INDEX `date_order` (`date` ASC, `id` ASC),
-  INDEX `date_order_rev` (`date` DESC, `id` ASC),
-  CONSTRAINT `fk_Thread_Forum1`
-    FOREIGN KEY (`forum`)
-    REFERENCES `forumdb`.`Forum` (`short_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Thread_User1`
-    FOREIGN KEY (`user`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `date_order_rev` (`date` DESC, `id` ASC))
 ENGINE = InnoDB;
 
 
@@ -120,19 +90,8 @@ CREATE TABLE IF NOT EXISTS `forumdb`.`Subscription` (
   PRIMARY KEY (`user`, `thread_id`),
   INDEX `fk_Subscriprions_Users1_idx` (`user` ASC),
   INDEX `fk_Subscriprions_Threads1_idx` (`thread_id` ASC),
-  UNIQUE INDEX `subscription` (`user` ASC, `thread_id` ASC),
-  CONSTRAINT `fk_Subscription_User1`
-    FOREIGN KEY (`user`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Subscription_Thread1`
-    FOREIGN KEY (`thread_id`)
-    REFERENCES `forumdb`.`Thread` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `subscription` (`user` ASC, `thread_id` ASC))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `forumdb`.`Post`
@@ -160,30 +119,5 @@ CREATE TABLE IF NOT EXISTS `forumdb`.`Post` (
   INDEX `fk_Posts_Posts1_idx` (`parent` ASC),
   INDEX `fk_Posts_Forums1_idx` (`forum` ASC),
   INDEX `date_ordering` (`date` DESC, `id` ASC),
-  INDEX `date_order_rev` (`date` DESC, `id` ASC),
-  CONSTRAINT `fk_Post_Thread1`
-    FOREIGN KEY (`thread`)
-    REFERENCES `forumdb`.`Thread` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Post_User1`
-    FOREIGN KEY (`user`)
-    REFERENCES `forumdb`.`User` (`email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Post_Post1`
-    FOREIGN KEY (`parent`)
-    REFERENCES `forumdb`.`Post` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Post_Forum1`
-    FOREIGN KEY (`forum`)
-    REFERENCES `forumdb`.`Forum` (`short_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `date_order_rev` (`date` DESC, `id` ASC))
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

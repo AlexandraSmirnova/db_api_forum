@@ -20,10 +20,6 @@ app.register_blueprint(post,  url_prefix = BASE_URL )
 app.register_blueprint(user,  url_prefix = BASE_URL )
 app.register_blueprint(thread,  url_prefix = BASE_URL )
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-
 
 @app.route('/db/api/clear/', methods=['POST'])
 def clear_db():

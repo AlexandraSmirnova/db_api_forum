@@ -59,6 +59,8 @@ def users_list(connect, short_name, optional):
             'isAnonymous': bool(user[4]),
             'about'      : user[5],                  
         }
+        if usr['isAnonymous'] == True:
+            usr['about'] = usr['name'] = usr['username'] = None
         usr["followers"] = users.followers(connect, usr["email"], "user")
         usr["following"] = users.followers(connect, usr["email"], "follow")
         usr["subscriptions"] = users.subscriptions(connect, usr["email"])

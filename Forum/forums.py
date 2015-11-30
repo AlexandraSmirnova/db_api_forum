@@ -16,26 +16,19 @@ BASE_URL = '/forum'
 def create():    
     con = connect()
     content = request.json
-    required_data = ["name", "short_name", "user"]
-    file = open('forum_create.txt', 'a')   
-    file.write("request: " + json.dumps(content) + "\n")    
+    required_data = ["name", "short_name", "user"]    
     try:
         check_data(content, required_data)
         forum = query.save_forum(con, content["name"], content["short_name"], content["user"])
     except Exception as e:
         con.close()
         if e.message == "Exist":
-            response = {"code": 4, "response": (e.message)} 
+            return json.dumps({"code": 4, "response": (e.message)}) 
         if e.message == "KeyError":
-            response = {"code": 3, "response": (e.message)}
+            return json.dumps({"code": 3, "response": (e.message)})
         if e.message == "ValueError":
-            response = {"code": 2, "response": (e.message)}
-        file.write("response: " +response + "\n\n" )
-        file.close()  
-        return json.dumps(response)  
-    response = json.dumps({"code": 0, "response": forum})
-    file.write("response: " +response + "\n\n" )
-    file.close()        
+            return json.dumps({"code": 2, "response": (e.message)})
+        return json.dumps({"code": 1, "response": (e.message)})  
     con.close()
     return json.dumps({"code": 0, "response": forum})
 

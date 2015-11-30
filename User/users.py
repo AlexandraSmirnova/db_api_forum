@@ -15,8 +15,6 @@ BASE_URL = '/user'
 def create():
     con = connect()     
     content = request.json
-    file = open('log2.txt', 'a')   
-    file.write("request: " + json.dumps(content) + "\n")    
     required_data = ["username", "about", "name", "email"]
     optional = intersection(request = content, values=["isAnonymous"])
     try:
@@ -24,30 +22,15 @@ def create():
         user = query.save_user(connect = con , username = content["username"], about = content["about"],name =  content["name"], email =content["email"], optional = optional)
     except Exception as e:        
         con.close()
-        if e.message == "Exist":
-            resp = json.dumps({"code": 5, "response": (e.message)})
-            file.write("response: " +resp + "\n\n" )
-            file.close()            
+        if e.message == "Exist":            
             return json.dumps({"code": 5, "response": (e.message)}) 
-        if e.message == "KeyError":
-            resp = json.dumps({"code": 3, "response": (e.message)})
-            file.write("response: " +resp + "\n\n" )
-            file.close()
+        if e.message == "KeyError":            
             return json.dumps({"code": 3, "response": (e.message)}) 
-        if e.message == "ValueError":
-            resp = json.dimps({"code": 2, "response": (e.message)})
-            file.write("response: " +resp + "\n\n" )
-            file.close()
+        if e.message == "ValueError":            
             return json.dumps({"code": 2, "response": (e.message)}) 
-            
-        response =  json.dumps({"code": 1, "response": (e.message)})
-        file.write("response: " +response + "\n\n" )
-        file.close()
+                    
         return json.dumps({"code": 1, "response": (e.message)})
-    con.close()
-    response = json.dumps({"code": 0, "response": user})
-    file.write("response: " +response + "\n\n" )
-    file.close()
+    con.close()    
     return json.dumps({"code": 0, "response": user})
 
 

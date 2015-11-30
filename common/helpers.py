@@ -9,8 +9,7 @@ def check_data(data, required):
             try:
                 data[el] = data[el].encode('utf-8')               
             except Exception:
-                continue
-    print("Data is OK!")
+                continue    
     return
 
 
