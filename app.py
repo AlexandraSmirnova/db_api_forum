@@ -6,7 +6,7 @@ from common.status import *
 import json
 from werkzeug.contrib.fixers import ProxyFix
 app = Flask(__name__)
-app.config.from_object('myconf')
+#app.config.from_object('myconf')
 
 from Thread.threads import *
 from Forum.forums import *

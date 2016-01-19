@@ -27,7 +27,6 @@ def create():
             return json.dumps({"code": 3, "response": (e.message)}) 
         if e.message == "ValueError":
             return json.dumps({"code": 2, "response": (e.message)}) 
-
         return json.dumps({"code": 1, "response": (e.message)})
     con.close()    
     return json.dumps({"code": 0, "response": post})

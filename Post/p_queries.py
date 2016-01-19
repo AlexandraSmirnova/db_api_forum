@@ -18,12 +18,21 @@ def save_post(connect, date, thread, message, user, forum, optional):
     except Exception as e:
         print e.message
     query += ") VALUES " + values + ")"
-    str = DB_connect.update_query(connect, query, parameters)
-    DB_connect.update_query(connect, "UPDATE Thread SET posts = posts + 1 WHERE id = %s", (thread, ))
-    id_post = DB_connect.select_query(connect, "SELECT max(id) FROM  Post", ())
+    #str = DB_connect.update_query(connect, query, parameters)
+    update_thread_posts = "UPDATE Thread SET posts = posts + 1 WHERE id = %s"
+    #DB_connect.update_query(connect, "UPDATE Thread SET posts = posts + 1 WHERE id = %s", (thread, ))
+    #id_post = DB_connect.select_query(connect, "SELECT max(id) FROM  Post", ())
+    con = connect
+    with con:
+        cursor = con.cursor()
+        cursor.execute(update_thread_posts, (thread, ))
+        cursor.execute(query, parameters)
+        con.commit()
+        id_post = cursor.lastrowid
+        cursor.close()
     post = DB_connect.select_query(connect, 
             "SELECT date, forum, id,  isApproved, isDeleted, isEdited, isHighlighted, isSpam, message, parent, thread, user \
-                FROM Post WHERE forum = %s and thread = %s and user = %s and id = %s", (forum, thread, user, id_post[0][0] ) )
+                FROM Post WHERE forum = %s and thread = %s and user = %s and id = %s", (forum, thread, user, id_post) )
     response = post_description(post)
    
     return response
