@@ -1,13 +1,25 @@
-DROP SCHEMA IF EXISTS `forumdb` ;
-CREATE SCHEMA IF NOT EXISTS `forumdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `forumdb` ;
+
+
+
+DROP SCHEMA IF EXISTS `forumdb2` ;
+
+CREATE SCHEMA IF NOT EXISTS `forumdb2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+
+USE `forumdb2` ;
 
 -- -----------------------------------------------------
 -- Table `forumdb`.`User`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`User` ;
+DROP TABLE IF EXISTS `forumdb2`.`User` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`User` (
+
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `forumdb2`.`User` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(64) NULL,
   `email` VARCHAR(64) NOT NULL,
@@ -26,9 +38,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `forumdb`.`Forum`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`Forum` ;
+DROP TABLE IF EXISTS `forumdb2`.`Forum` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`Forum` (
+CREATE TABLE IF NOT EXISTS `forumdb2`.`Forum` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user` VARCHAR(64) NOT NULL,
   `short_name` VARCHAR(128) NOT NULL,
@@ -42,9 +54,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `forumdb`.`Follow`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`Follow` ;
+DROP TABLE IF EXISTS `forumdb2`.`Follow` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`Follow` (
+CREATE TABLE IF NOT EXISTS `forumdb2`.`Follow` (
   `user` VARCHAR(64) NOT NULL,
   `follow` VARCHAR(64) NOT NULL,
   `isDeleted` TINYINT(1) NOT NULL DEFAULT FALSE,
@@ -55,9 +67,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `forumdb`.`Thread`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`Thread` ;
+DROP TABLE IF EXISTS `forumdb2`.`Thread` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`Thread` (
+CREATE TABLE IF NOT EXISTS `forumdb2`.`Thread` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user` VARCHAR(64) NOT NULL,
   `forum` VARCHAR(128) NOT NULL,
@@ -81,9 +93,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `forumdb`.`Subscription`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`Subscription` ;
+DROP TABLE IF EXISTS `forumdb2`.`Subscription` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`Subscription` (
+CREATE TABLE IF NOT EXISTS `forumdb2`.`Subscription` (
   `user` VARCHAR(64) NOT NULL,
   `thread_id` INT NOT NULL,
   `isDeleted` TINYINT(1) NOT NULL DEFAULT FALSE,
@@ -96,9 +108,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `forumdb`.`Post`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `forumdb`.`Post` ;
+DROP TABLE IF EXISTS `forumdb2`.`Post` ;
 
-CREATE TABLE IF NOT EXISTS `forumdb`.`Post` (
+CREATE TABLE IF NOT EXISTS `forumdb2`.`Post` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `thread` INT NOT NULL,
   `user` VARCHAR(64) NOT NULL,

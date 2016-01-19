@@ -34,4 +34,9 @@ def status_db():
 
 
 if __name__ == "__main__":
-    app.run()
+
+
+
+
+
+    app.run(host='10.20.0.46', port=8080)  
