@@ -54,8 +54,7 @@ def post_description(post):
         'thread':       post[10],
         'user':         post[11],
 
-    }
-    print(response)
+    }    
     return response
 
 def show_post(connect, post, related):
@@ -152,8 +151,7 @@ def update_post(connect, post, message):
     return show_post(connect,post, [])
 
 
-def vote_for_post(connect, post, vote):
-    print(vote)
+def vote_for_post(connect, post, vote):    
     if (vote == 1):        
         DB_connect.update_query(connect,'UPDATE Post SET likes = likes + 1  WHERE id = %s', (post, ))
     else: 

@@ -17,8 +17,7 @@ def save_user(connect, username, about, name, email, optional):
 
 def show_user(connect, email):
     user = DB_connect.select_query(connect, 'Select  email, about, id, isAnonymous, name, username FROM User WHERE email = %s', (email, ) )
-    user = user_description(user)
-    print("1")
+    user = user_description(user)    
     if user is None:
        raise Exception("User with email " + email +" doesn't exist ")
     user["followers"] = followers(connect, email, "user")
@@ -29,8 +28,7 @@ def show_user(connect, email):
 
 def follow_user(connect, follower, followee):    
     user1 = DB_connect.select_query(connect, 'SELECT email FROM User WHERE email = %s', (follower, ))
-    user2 = DB_connect.select_query(connect, 'SELECT email FROM User WHERE email = %s', (follower, ))
-    print(user1)
+    user2 = DB_connect.select_query(connect, 'SELECT email FROM User WHERE email = %s', (follower, ))    
     if user1 and user2:                
         str = DB_connect.update_query(connect, 
                 'INSERT INTO Follow (user, follow) VALUES (%s, %s)', (follower, followee, ) )
@@ -60,8 +58,7 @@ def user_description(user):
         'username'   : user[5]
     }
     if response['isAnonymous'] == True:
-        response['about'] = response['name'] = response['username'] = None
-    print(response)
+        response['about'] = response['name'] = response['username'] = None    
     return response
 
 

@@ -10,8 +10,7 @@ def save_thread(connect, forum, title, isClosed, user, date, message, slug, opti
     str = DB_connect.update_query(connect,
                 'INSERT INTO Thread (forum, title, isClosed, user, date, message, slug, isDeleted) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', 
                 (forum, title, isClosed, user, date, message, slug, isDeleted, ))
-    max_id = DB_connect.select_query(connect, 'SELECT max(id) FROM Thread', ())
-    print(max_id[0][0])
+    max_id = DB_connect.select_query(connect, 'SELECT max(id) FROM Thread', ())    
     thread = DB_connect.select_query(connect, 
                 'SELECT  date, forum, id,  isClosed,  isDeleted, message, slug,  title,  user FROM Thread  WHERE id = %s', (max_id[0][0], ) )    
     return thread_description(thread)
@@ -30,8 +29,7 @@ def thread_description(thread):
         'slug':      thread[6],
         'title':     thread[7],
         'user':      thread[8],
-    }
-    print(response)
+    }    
     return response
 
 
@@ -158,8 +156,7 @@ def dec_posts_count(connect,post):
     return
 
 
-def vote_for_thread(connect, thread, vote):
-    print(vote)
+def vote_for_thread(connect, thread, vote):    
     if (vote == 1):        
         DB_connect.update_query(connect,'UPDATE Thread SET likes = likes + 1  WHERE id = %s', (thread, ))
     else: 

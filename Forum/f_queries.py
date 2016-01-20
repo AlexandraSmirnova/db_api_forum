@@ -19,8 +19,7 @@ def forum_description(forum):
         'short_name': forum[2],
         'user': forum[3],
         'id': forum[0]
-    }
-    print(response)
+    }    
     return response
 
     
