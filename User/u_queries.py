@@ -27,30 +27,22 @@ def show_user(connect, email):
     return user
 
 
-def follow_user(connect, follower, followee):
-    is_deleted = 0
+def follow_user(connect, follower, followee):    
     user1 = DB_connect.select_query(connect, 'SELECT email FROM User WHERE email = %s', (follower, ))
     user2 = DB_connect.select_query(connect, 'SELECT email FROM User WHERE email = %s', (follower, ))
     print(user1)
-    if user1 and user2:        
-        link = DB_connect.select_query(connect, "SELECT * FROM Follow WHERE user = %s AND follow = %s", (follower, followee, ) )
-        if link:
-            str = DB_connect.update_query(connect, 
-                'UPDATE Follow SET  isDeleted = %s WHERE user =  %s', (is_deleted, follower, ) )            
-        else:
-            str = DB_connect.update_query(connect, 
-                'INSERT INTO Follow (user, follow, isDeleted) VALUES (%s, %s, %s)', (follower, followee, is_deleted, ) )
+    if user1 and user2:                
+        str = DB_connect.update_query(connect, 
+                'INSERT INTO Follow (user, follow) VALUES (%s, %s)', (follower, followee, ) )
     else:
         raise Exception("Error. Such users don't exist");
     user = show_user(connect, follower)
     return user
      
 
-def unfollow_user(connect, follower, followee):
-    is_deleted = 1
-
+def unfollow_user(connect, follower, followee):    
     str = DB_connect.update_query(connect, 
-        'UPDATE Follow SET  isDeleted = %s WHERE user =  %s', (is_deleted, follower, ) )
+        'DELETE FROM Follow  WHERE user =  %s AND follow = %s', (follower, followee, ) )
     if str == "Exist":
         raise Exception("Such row in db does not exist");
     user = show_user(connect, follower)
@@ -78,7 +70,7 @@ def followers(connect, email, type):
     if type == "user":
         where = "follow"    
     f_list = DB_connect.select_query(connect,
-        "SELECT " + type + " FROM Follow WHERE " + where + " = %s  AND isDeleted = 0", (email, ))
+        "SELECT " + type + " FROM Follow WHERE " + where + " = %s ", (email, ))
     return convert_to_list(f_list)
 
 
@@ -126,5 +118,3 @@ def convert_to_list(tuple):
     for el in tuple:
         list.append(el[0])
     return list
-
-

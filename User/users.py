@@ -148,4 +148,3 @@ def update():
         return json.dumps({"code": 1, "response": (e.message)})
     con.close()
     return json.dumps({"code": 0, "response": user})
-
